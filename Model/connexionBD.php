@@ -1,27 +1,26 @@
 <?php
 session_start();
-require_once "define.php";
+require "define.php";
 
 //Connexion à la base de données
 function CoToBase()
 {
-    try {
-        $serveur = HOST;
-        $pseudo = USER;
-        $pwd = PWD;
-        $db = DBNAME;
+    static $dbc = null;
 
-        static $bd = null;
-
-        if ($bd === null) {
-            $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-            $bd = new PDO("mysql:host=$serveur;dbname=$db", $pseudo, $pwd, $pdo_options);
-            $bd->exec('SET CHARACTER SET utf8');
-        }
-
-        return $bd;
-    } catch (Exception $e) {
-        echo 'Exception reçue : ',  $e->getMessage(), "\n";
-    }
+   if ($dbc == null) {
+       try {
+           $dbc = new PDO("mysql:host". HOST . '; port=3307; dbname='. DBNAME, USER, PWD, array(
+               PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+               PDO::ATTR_PERSISTENT => true,
+               PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+           ));
+       } catch (Exception $th) {
+           echo 'erreur : ' . $th->getMessage() . 'br />';
+           echo 'N°'. $th->getCode();
+           
+           die("Connexion failed");
+       }
+   }
+   return $dbc;
 }
 ?>
