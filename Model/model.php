@@ -19,23 +19,6 @@ function addClient($nom, $prenom, $telephone, $adresse, $pays){
         echo 'Exception reçue : ',  $e->getMessage(), "\n";
     }
 }
-function recoverIdClient($telephone){
-    try {
-        $bd = CoToBase();
-        $requete = $bd->query('SELECT idClients FROM clients WHERE telephone = :telephone');
-        $requete->execute(
-            array(
-                ':telephone' => $telephone,
-            )
-        );   
-        $idUser = $requete->fetchAll();
-        foreach($idUser as $ele){
-            return $ele['idClients'];          
-        }          
-    } catch (Exception $e) {
-        echo 'Exception reçue : ',  $e->getMessage(), "\n";
-    }
-}
 
 function deleteClient($id){
     try {
@@ -52,26 +35,25 @@ function deleteClient($id){
     }
 }
 
-function updateClient($nom, $prenom, $telephone, $adresse){
+function updateClient($nom, $prenom, $telephone, $adresse, $pays, $idclient){
 
     try {
         $bd = CoToBase();
-        $requete = $bd->prepare("UPDATE clients SET nom = :nomClient, prenom = :prenomClient, telephone = :telephoneClient, adresse = :adresseClient, WHERE idClients = :idClients");
+        $requete = $bd->prepare("UPDATE clients SET nom = :nomClient, prenom = :prenomClient, telephone = :telephoneClient, adresse = :adresseClient, pays = :paysClient WHERE idClients = :idClients");
         $requete->execute(
             array(
                 ':nomClient' => $nom,
                 ':prenomClient' => $prenom,
                 ':telephoneClient' => $telephone,
                 ':adresseClient' => $adresse,
-                ':idClients' => $_SESSION['idClient'],
+                ':paysClient' => $pays,
+                ':idClients' => $idclient,
             )
         );     
-        $lesArticles = $requete->fetchAll();
 
     } catch (Exception $e) {
         echo 'Exception reçue : ',  $e->getMessage(), "\n";
     }
-    return $lesArticles;
 }
 
 function checkNomPrenomTel($nom, $prenom, $telephone){
@@ -91,6 +73,19 @@ function checkNomPrenomTel($nom, $prenom, $telephone){
             }
         }
         return $estOk;
+    } catch (Exception $e) {
+        echo 'Exception reçue : ',  $e->getMessage(), "\n";
+    }
+}
+
+function selectClient(){
+
+    try {
+        $bd = CoToBase();
+        $requete = $bd->query("SELECT * FROM clients");
+        $requete->execute();   
+        return $requete->fetchAll();
+          
     } catch (Exception $e) {
         echo 'Exception reçue : ',  $e->getMessage(), "\n";
     }

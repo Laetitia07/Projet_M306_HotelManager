@@ -1,15 +1,19 @@
 <?php 
 require_once "../Controller/controller.php";
 require_once "../Model/model.php";
-
-if(filter_has_var(INPUT_POST, 'add')){
-    controlInputClient($_POST['Nom'],$_POST['Prenom'],$_POST['Telephone'],$_POST['Adresse'],$_POST['Pays']);
+$mess = "";
+if(filter_has_var(INPUT_POST, 'Add')){
+   $mess = controlInputClient($_POST['Nom'],$_POST['Prenom'],$_POST['Telephone'],$_POST['Adresse'],$_POST['Pays']);
 }
-if(filter_has_var(INPUT_POST, 'delete')){
+if(filter_has_var(INPUT_POST, 'Delete')){
     
 }
-if(filter_has_var(INPUT_POST, 'update')){
-    
+if(filter_has_var(INPUT_POST, 'Update')){
+    updateClient($_POST['Nom'],$_POST['Prenom'],$_POST['Telephone'],$_POST['Adresse'],$_POST['Pays'],1);
+}
+$clients = selectClient();
+foreach($clients as $client){
+    echo $client['nom']." ".$client['prenom']." ".$client['telephone']." ".$client['adresse']." ".$client['pays']."<br>";
 }
 ?>
 <!DOCTYPE html>
@@ -27,10 +31,15 @@ if(filter_has_var(INPUT_POST, 'update')){
     <title>Document</title>
 </head>
 <body>
+<?php if($mess != ""): ?>
+    <div class="alert alert-danger">
+        <strong>Erreur </strong> <?=$mess?>
+    </div>
+<?php endif ?>
 <form action="#" method="POST">
         <div class="form-group my-3">
             <label for="inputNom">First Name : </label>
-            <input type="text" class="form-control" name="Prenom" placeholder="Honnete">
+            <input type="text" class="form-control" name="Prenom" placeholder="Honn">
         </div>
 
         <div class="form-group my-3">
@@ -53,13 +62,13 @@ if(filter_has_var(INPUT_POST, 'update')){
 
         <div class="form-group my-3">
             <div class="col-md d-inline">
-                <input type="submit" class="btn btn-light text-dark" value="Add" name="add">
+                <input type="submit" class="btn btn-light text-dark" value="Add" name="Add">
             </div>
             <div class="col-md d-inline">
-                <input type="submit" class="btn btn-light text-dark" value="Delete" name="delete">
+                <input type="submit" class="btn btn-light text-dark" value="Delete" name="Delete">
             </div>
             <div class="col-md d-inline">
-                <input type="submit" class="btn btn-light text-dark" value="Update" name="update">
+                <input type="submit" class="btn btn-light text-dark" value="Update" name="Update">
             </div>
         </div>
     </form>
