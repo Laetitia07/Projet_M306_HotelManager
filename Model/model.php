@@ -56,6 +56,22 @@ function updateClient($nom, $prenom, $telephone, $adresse, $pays, $idclient){
     }
 }
 
+function selectInfoClient($id){
+    try {
+        $bd = CoToBase();
+        $requete = $bd->prepare("SELECT * FROM clients WHERE idClients = :idClient");
+        $requete->execute(
+            array(
+                ':idClient' => $id,
+            )
+        );   
+        return $requete->fetchAll();
+          
+    } catch (Exception $e) {
+        echo 'Exception reçue : ',  $e->getMessage(), "\n";
+    }
+}
+
 function checkNomPrenomTel($nom, $prenom, $telephone){
 
     $estOk = true;
