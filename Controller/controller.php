@@ -1,4 +1,5 @@
 <?php
+//commentaire test
 require_once "../Model/model.php";
 function controlInputClient($monNom, $monPrenom, $monTelephone, $monAdresse, $monPays){
     
