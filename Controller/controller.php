@@ -14,8 +14,7 @@ function controlInputClient($monNom, $monPrenom, $monTelephone, $monAdresse, $mo
 
             addClient($nom, $prenom, $Telephone, $Adresse, $Pays);          
             $_SESSION['tel'] = $Telephone;
-            $_SESSION['nom'] = $nom;
-            //header("Location:  ");     
+            $_SESSION['nom'] = $nom;    
         } else {
             $error = "Ce client existe déjà";
         }
