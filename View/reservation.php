@@ -24,7 +24,7 @@
             </h1>
             <!-- le h2 est sensé être modifié par un require qui va servir à determiner sur quelle page on se trouve  -->
             <h2>
-                Room
+                Réservation
             </h2>
 
             <a href="#" class="link-light" id="deconnexion">se déconnecter</a>
@@ -40,38 +40,43 @@
         <form action="">
             <section id="section1">
                 <div class="mb-3 row">
-                    <label for="RoomName" class="col-sm-2 col-form-label">Room name</label>
+                    <label for="EntryDate" class="col-sm-2 col-form-label">Entry Date</label>
                     <div class="col-sm-10">
-                    <input name="RoomName" type="text" class="form-control" id="RoomName">
+                    <input name="EntryDate" type="date" class="form-control" id="EntryDate">
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="TypeRoom" class="col-sm-2 col-form-label">Type Room</label>
+                    <label for="ReleaseDate" class="col-sm-2 col-form-label">Release Date</label>
                     <div class="col-sm-10">
-                    <input name="TypeRoom" type="text" class="form-control" id="TypeRoom">
+                    <input name="ReleaseDate" type="date" class="form-control" id="ReleaseDate">
                     </div>
                 </div>
                 <div class="mb-3 row">
-                    <label for="RoomPhone" class="col-sm-2 col-form-label">Room phone</label>
+                    <label for="client" class="col-sm-2 col-form-label">Client</label>
                     <div class="col-sm-10">
-                    <input name="RoomPhone" type="tel" class="form-control" id="RoomPhone">
+                    <input name="client" type="tel" class="form-control" id="client">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="RoomNumber" class="col-sm-2 col-form-label">Room Number</label>
+                    <div class="col-sm-10">
+                    <input name="RoomNumber" type="tel" class="form-control" id="RoomNumber">
                     </div>
                 </div>
         
             </section>
+            <section id="section3">
+            <button type="button" class="btn btn-outline-light">Add</button>
+            <button type="button" class="btn btn-outline-light">Delete</button>
+            <button type="button" class="btn btn-outline-light">Update</button>
+            </section>
+            </form>
+            <form action="" method="post">
             <section id="section2">
                 <div id="checkbox">
                     <div class="form-check" >
-                        <input class="form-check-input" type="radio" name="radioAvailable" id="radioAvailableyes">
-                        <label class="form-check-label" for="radioAvailableyes">
-                        available
-                        </label>
-                    </div>
-                    <div class="form-check" id="chb">
-                        <input class="form-check-input" type="radio" name="radioAvailable" id="radioAvailablenot" checked>
-                        <label class="form-check-label" for="radioAvailablenot">
-                        not available
-                        </label>
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
                 <article>
@@ -84,12 +89,9 @@
                 </div>
                 </article>
             </section>
-            <section id="section3">
-            <button type="button" class="btn btn-outline-light">Add</button>
-            <button type="button" class="btn btn-outline-light">Delete</button>
-            <button type="button" class="btn btn-outline-light">Update</button>
-            </section>
-        </form>
+            
+            </form>
+        
 
 
     </main>
