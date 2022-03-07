@@ -94,8 +94,70 @@ function readChambres(){
 /**
  * Ajoute une réservation
  */
-function Insert(){
+function InsertResa($entryDate, $realeaseDate, $idClient, $roomNumber){
+  try {
+    $bd = CoToBase();
+    $requete = $bd->prepare("INSERT INTO `reservation`(`idReservation`, `entryDate`, `realeaseDate`, `id`, `roomNumber`) VALUES( NULL, :Entry, :Realease, :Idclient, :Roomnumber)");
 
+    $requete->execute(
+        array(
+            ':Entry' => $entryDate,
+            ':Realease' => $realeaseDate,
+            ':Idclient' => $idClient,
+            ':Roomnumber' => $roomNumber,
+        )
+    );
+    
+    echo"alert('Nouvelle réservation réussi');";
+    
+} catch (Exception $e) {
+    echo 'Exception reçue : ',  $e->getMessage(), "\n";
+}
+}
+
+/**
+ * Controlle les input post avant d'insérer
+ */
+function controlInputInsert($entryDate, $realeaseDate, $idClient, $roomNumber){
+    
+    $error = "";
+    if (isset($entryDate) && !empty($entryDate) && isset($idClient) && !empty($idClient) && isset($roomNumber) && !empty($roomNumber)) {
+        $nom = filter_var($entryDate,);
+        $prenom = filter_var($realeaseDate, );
+        $Telephone = filter_var($idClient, FILTER_SANITIZE_NUMBER_INT);
+        $Adresse = filter_var($roomNumber, FILTER_SANITIZE_STRING);
+       
+        if (checkDoubleResa($entryDate, $realeaseDate, $idClient, $roomNumber)) {     
+
+            InsertResa($entryDate,$realeaseDate,$idClient,$roomNumber);
+        } else {
+            $error = "Une réservation indentique existe déja au nom de ce client";
+        }
+    } else {
+        $error = "Veuillez remplir tous les champs correctement !";
+    }
+    return $error;
+}
+
+/**
+ * Vérifie qu'une réservation identique n'existe pas déja
+ */
+function checkDoubleResa($entryDate, $realeaseDate, $idClient, $roomNumber){
+
+  $estOk = true;
+  try {
+      $bd = CoToBase();
+      $requete = $bd->query('SELECT reservation.id, reservation.roomNumber, reservation.entryDate, reservation.realeaseDate FROM `reservation`;');
+
+      while ($donnee = $requete->fetch()) {
+          if ($entryDate == $donnee['entryDate'] || $realeaseDate == $donnee['realeaseDate'] || $idClient == $donnee['id'] || $roomNumber == $donnee['roomNumber']) {
+            $estOk = false;
+          }
+      }
+      return $estOk;
+  } catch (Exception $e) {
+      echo 'Exception reçue : ',  $e->getMessage(), "\n";
+  }
 }
 
 ?>

@@ -6,6 +6,10 @@
 */
 
 require('../Model/functionResa.php');
+
+if(filter_has_var(INPUT_POST,"add")){
+    controlInputInsert($_POST['EntryDate'],$_POST['ReleaseDate'],$_POST['client'],$_POST['chambre']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -39,7 +43,7 @@ require('../Model/functionResa.php');
         </nav>
     </header>
     <main>
-        <form action="">
+        <form action="#" method="POST">
             <section id="section1">
                 <div class="mb-3 row">
                     <label for="EntryDate" class="col-sm-2 col-form-label">Entry Date</label>
@@ -72,12 +76,12 @@ require('../Model/functionResa.php');
         
             </section>
             <section id="section3">
-            <button type="button" class="btn btn-outline-light">Add</button>
-            <button type="button" class="btn btn-outline-light">Delete</button>
-            <button type="button" class="btn btn-outline-light">Update</button>
+            <input type="button" id="add" name="add" class="btn btn-outline-light" value="Add">
+            <input type="button" id="delete" name="delete" class="btn btn-outline-light" value="Delete">
+            <input type="button" id="update" name="update" class="btn btn-outline-light" value="Update">
             </section>
             </form>
-            <form action="" method="post">
+            <form action="#" method="POST">
             <section id="section2">
                 <div id="checkbox">
                     <div class="form-check" >
