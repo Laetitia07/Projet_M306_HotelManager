@@ -56,13 +56,17 @@ require('../Model/functionResa.php');
                 <div class="mb-3 row">
                     <label for="client" class="col-sm-2 col-form-label">Client</label>
                     <div class="col-sm-10">
-                    <input name="client" type="tel" class="form-control" id="client">
+                        <select class="form-control" name="client" id="client">
+                            <?php echo readClients();?>
+                        </select>
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label for="RoomNumber" class="col-sm-2 col-form-label">Room Number</label>
                     <div class="col-sm-10">
-                    <input name="RoomNumber" type="tel" class="form-control" id="RoomNumber">
+                    <select class="form-control" name="chambre" id="chambre">
+                            <?php echo readChambres();?>
+                    </select>
                     </div>
                 </div>
         
@@ -84,7 +88,8 @@ require('../Model/functionResa.php');
                 <article>
                 <div class="list-group">
                 <!-- <a href="#" class="list-group-item list-group-item-action active" aria-current="true">Room name, Type Room, Room phone</a>-->
-                <?php readReservation() ?>
+                <?php echo readReservation() ;
+                ?>
                 </div>
                 </article>
             </section>
@@ -98,6 +103,10 @@ require('../Model/functionResa.php');
     <footer>
         made by the Dream Team
     </footer>
-    
+    <script>
+        function tableauClick(id){
+            document.getElementById(id).setAttribute("aria-current","true");
+        }
+    </script>
 </body>
 </html>
