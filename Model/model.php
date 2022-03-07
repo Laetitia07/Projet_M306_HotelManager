@@ -1,5 +1,5 @@
 <?php
-require_once "connexionBD.php";
+require_once "connexionBD.php";//commentaure
 function addClient($nom, $prenom, $telephone, $adresse, $pays){
     try {
         $bd = CoToBase();
