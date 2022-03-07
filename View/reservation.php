@@ -4,6 +4,8 @@
 *Date : 28.03
 *Description : Relie le client à la chambre à travers une réservation 
 */
+
+require('../Model/functionResa.php');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -81,11 +83,8 @@
                 </div>
                 <article>
                 <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active" aria-current="true">Room name, Type Room, Room phone</a>
-                <a href="#" class="list-group-item list-group-item-action">Room name, Type Room, Room phone</a>
-                <a href="#" class="list-group-item list-group-item-action">Room name, Type Room, Room phone</a>
-                <a href="#" class="list-group-item list-group-item-action">Room name, Type Room, Room phone</a>
-                <a class="list-group-item list-group-item-action disabled">Room name, Type Room, Room phone</a>
+                <!-- <a href="#" class="list-group-item list-group-item-action active" aria-current="true">Room name, Type Room, Room phone</a>-->
+                <?php readReservation() ?>
                 </div>
                 </article>
             </section>

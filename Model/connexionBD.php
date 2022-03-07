@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "define.php";
+require_once("define.php");
 
 //Connexion à la base de données
 function CoToBase()
