@@ -4,10 +4,23 @@ prénom:Sébastien
 date:
 classe: I.FDA.P3A
 nom du projet: Hotel manager
-commentraure
 -->
-
-
+<?php
+require_once "../Controller/controller.php";
+require_once "../Model/model.php";
+$mess = "";
+if(filter_has_var(INPUT_POST, 'Add')){
+    $mess = controlInputRoom(/*$_POST['RoomName'],*/$_POST['TypeRoom'],$_POST['RoomPhone']);
+ }
+ if(filter_has_var(INPUT_POST, 'Delete')){
+    header('location: ./room.php');
+    deleteRoom($_GET['id']);
+}
+if(filter_has_var(INPUT_POST, 'Update')){
+    updateRoom($_POST['TypeRoom'],$_POST['RoomPhone'], $_GET['id']);
+}
+$rooms = selectRoom();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,28 +53,62 @@ commentraure
         </nav>
     </header>
     <main>
-        <form action="">
-            <section id="section1">
-                <div class="mb-3 row">
+    <?php if($mess != ""): ?>
+    <div class="alert alert-danger">
+        <strong>Erreur </strong> <?=$mess?>
+    </div>
+    <?php endif ?>
+        <form action="#" Method="POST">
+
+<?php 
+if(isset($_GET['id'])){
+    $infoRooms = selectInfoRoom($_GET['id']);
+    foreach($infoRooms as $infoRoom): ?>   
+     <section id="section1">
+     <div class="mb-3 row">
                     <label for="RoomName" class="col-sm-2 col-form-label">Room name</label>
                     <div class="col-sm-10">
-                    <input name="RoomName" type="text" class="form-control" id="RoomName">
+                    <input name="RoomName" type="text" class="form-control" name="RoomName" value="<?=$infoRoom['numeroChambre']?>">
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label for="TypeRoom" class="col-sm-2 col-form-label">Type Room</label>
                     <div class="col-sm-10">
-                    <input name="TypeRoom" type="text" class="form-control" id="TypeRoom">
+                    <input name="TypeRoom" type="text" class="form-control" name="TypeRoom" value="<?=$infoRoom['type']?>">
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label for="RoomPhone" class="col-sm-2 col-form-label">Room phone</label>
                     <div class="col-sm-10">
-                    <input name="RoomPhone" type="tel" class="form-control" id="RoomPhone">
+                    <input name="RoomPhone" type="tel" class="form-control" name="RoomPhone" value="<?=$infoRoom['telephone']?>">
                     </div>
                 </div>
-        
             </section>
+        <?php endforeach; 
+        }else{?>
+            <section id="section1">
+            <div class="mb-3 row">
+                    <label for="RoomName" class="col-sm-2 col-form-label">Room name</label>
+                    <div class="col-sm-10">
+                    <input name="RoomName" type="text" class="form-control" name="RoomName">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="TypeRoom" class="col-sm-2 col-form-label">Type Room</label>
+                    <div class="col-sm-10">
+                    <input name="TypeRoom" type="text" class="form-control" name="TypeRoom">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="RoomPhone" class="col-sm-2 col-form-label">Room phone</label>
+                    <div class="col-sm-10">
+                    <input name="RoomPhone" type="tel" class="form-control" name="RoomPhone">
+                    </div>
+                </div>
+            </section>
+
+        <?php } ?> 
+        
             <section id="section2">
                 <div id="checkbox">
                     <div class="form-check" >
@@ -78,19 +125,18 @@ commentraure
                     </div>
                 </div>
                 <article>
-                <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active" aria-current="true">Room name, Type Room, Room phone</a>
-                <a href="#" class="list-group-item list-group-item-action">Room name, Type Room, Room phone</a>
-                <a href="#" class="list-group-item list-group-item-action">Room name, Type Room, Room phone</a>
-                <a href="#" class="list-group-item list-group-item-action">Room name, Type Room, Room phone</a>
-                <a class="list-group-item list-group-item-action disabled">Room name, Type Room, Room phone</a>
-                </div>
+                    <div class="list-group">
+                    <?php foreach($rooms as $room): ?>
+                        <a href="room.php?id=<?=$room['numeroChambre']?>" class="list-group-item list-group-item-action"><?=$room['numeroChambre']." ".$room['type']." ".$room['telephone']?></a>
+                        <br>
+                    <?php endforeach;?>  
+                    </div>
                 </article>
             </section>
             <section id="section3">
-            <button type="button" class="btn btn-outline-light">Add</button>
-            <button type="button" class="btn btn-outline-light">Delete</button>
-            <button type="button" class="btn btn-outline-light">Update</button>
+            <input type="submit" class="btn btn-light text-dark" value="Add" name="Add">
+            <input type="submit" class="btn btn-light text-dark" value="Delete" name="Delete">
+            <input type="submit" class="btn btn-light text-dark" value="Update" name="Update">
             </section>
         </form>
 
