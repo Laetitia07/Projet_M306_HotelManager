@@ -19,8 +19,8 @@ function readReservation(){
         $reservations = $ps->fetchAll();
         $echo='';
         foreach ($reservations as $reservation) {
-            $echo.= '<a href="#" class="list-group-item list-group-item-action" onclick="tableauClick("'.$reservation['id'].'")" id="'.$reservation['id'].'">'.$reservation['nomClient'] .' '. $reservation['prenomClient'] .', '.$reservation['roomNumber'].', '.$reservation['entryDate'] .', '. $reservation['realeaseDate'] .'</a>'; 
-        
+            $echo.= '<input type="button" class="list-group-item list-group-item-action" onclick="tableauClick("'.$reservation['id'].'")" id="'.$reservation['id'].'" name="reservation" value="'.$reservation['nomClient'] .' '. $reservation['prenomClient'] .', '.$reservation['roomNumber'].', '.$reservation['entryDate'] .', '. $reservation['realeaseDate'] .'">'; 
+            
         }
       }
       
@@ -75,7 +75,7 @@ function readChambres(){
     try {
       $ps->execute();
       if($ps->rowCount() == 0){
-        echo "pas de clients";
+        echo "pas de chambres";
       }else{
         $chambres = $ps->fetchAll();
         $echo='';
@@ -158,6 +158,27 @@ function checkDoubleResa($entryDate, $realeaseDate, $idClient, $roomNumber){
   } catch (Exception $e) {
       echo 'Exception reçue : ',  $e->getMessage(), "\n";
   }
+}
+
+/**
+ * Supprime la réservation sélectionner
+ */
+function deleteResa($idReservation){
+  try {
+    $bd = CoToBase();
+    $requete = $bd->prepare("DELETE FROM `reservation` WHERE idReservation = :ID");
+
+    $requete->execute(
+        array(
+            ':ID' => $idReservation,
+        )
+    );
+    
+    echo"alert('Réservation supprimé');";
+    
+} catch (Exception $e) {
+    echo 'Exception reçue : ',  $e->getMessage(), "\n";
+}
 }
 
 ?>

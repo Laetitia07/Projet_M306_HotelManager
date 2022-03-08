@@ -10,6 +10,13 @@ require('../Model/functionResa.php');
 if(filter_has_var(INPUT_POST,"add")){
     controlInputInsert($_POST['EntryDate'],$_POST['ReleaseDate'],$_POST['client'],$_POST['chambre']);
 }
+if(filter_has_var(INPUT_POST,"delete")){
+
+}
+if(filter_has_var(INPUT_POST,"reservation")){
+    //deleteResa($_POST['reservation']);
+    echo $_POST['reservation'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
