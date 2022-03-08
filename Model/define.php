@@ -1,7 +1,7 @@
 <?php
 define("HOST", "localhost");
-define("DBNAME", "dbhotel");
+define("DBNAME", "db_hotelmanager");
 define("DSN", "mysql:host=" . HOST . ";dbname=" . DBNAME);
 define("USER", "root");
-define("PWD", "Super");
+define("PWD", "");
 ?>
