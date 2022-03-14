@@ -1,6 +1,6 @@
 <?php 
-require_once "../Controller/controller.php";
-require_once "../Model/model.php";
+require_once "../Controller/controllerClient.php";
+require_once "../Model/modelClient.php";
 $mess = "";
 if(filter_has_var(INPUT_POST, 'Add')){
    $mess = controlInputClient($_POST['Nom'],$_POST['Prenom'],$_POST['Telephone'],$_POST['Adresse'],$_POST['Pays']);
