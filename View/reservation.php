@@ -11,10 +11,9 @@ if(filter_has_var(INPUT_POST,"add")){
     controlInputInsert($_POST['EntryDate'],$_POST['ReleaseDate'],$_POST['client'],$_POST['chambre']);
 }
 if(filter_has_var(INPUT_POST,"delete")){
-
+    deleteResa($_POST['idResa']);
 }
 if(filter_has_var(INPUT_POST,"reservation")){
-    //deleteResa($_POST['reservation']);
     echo $_POST['reservation'];
 }
 ?>
@@ -25,7 +24,7 @@ if(filter_has_var(INPUT_POST,"reservation")){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservation</title>
-    <link rel="stylesheet" href="../CSS/room.css">
+    <link rel="stylesheet" href="../CSS/css.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </head>
@@ -83,12 +82,12 @@ if(filter_has_var(INPUT_POST,"reservation")){
         
             </section>
             <section id="section3">
-            <input type="button" id="add" name="add" class="btn btn-outline-light" value="Add">
-            <input type="button" id="delete" name="delete" class="btn btn-outline-light" value="Delete">
-            <input type="button" id="update" name="update" class="btn btn-outline-light" value="Update">
+            <input type="submit" id="add" name="add" class="btn btn-outline-light" value="Add">
+            <input type="submit" id="delete" name="delete" class="btn btn-outline-light" value="Delete">
+            <input type="submit" id="update" name="update" class="btn btn-outline-light" value="Update">
             </section>
-            </form>
-            <form action="#" method="POST">
+            <!-- </form>
+            <form action="#" method="POST">-->
             <section id="section2">
                 <div id="checkbox">
                     <div class="form-check" >
@@ -101,6 +100,14 @@ if(filter_has_var(INPUT_POST,"reservation")){
                 <!-- <a href="#" class="list-group-item list-group-item-action active" aria-current="true">Room name, Type Room, Room phone</a>-->
                 <?php echo readReservation() ;
                 ?>
+                <input type="hidden" id="idResa" name="idResa" value="">
+                <script type="text/javascript">
+                    function tableauClick(id){
+                    document.getElementById(id).setAttribute("aria-current","true");
+                    document.getElementById('idResa').setAttribute("value",id);
+                    
+                    }
+                </script>
                 </div>
                 </article>
             </section>
@@ -114,10 +121,6 @@ if(filter_has_var(INPUT_POST,"reservation")){
     <footer>
         made by the Dream Team
     </footer>
-    <script>
-        function tableauClick(id){
-            document.getElementById(id).setAttribute("aria-current","true");
-        }
-    </script>
+    
 </body>
 </html>

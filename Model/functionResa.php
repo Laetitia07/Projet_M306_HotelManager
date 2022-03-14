@@ -19,7 +19,7 @@ function readReservation(){
         $reservations = $ps->fetchAll();
         $echo='';
         foreach ($reservations as $reservation) {
-            $echo.= '<input type="button" class="list-group-item list-group-item-action" onclick="tableauClick("'.$reservation['id'].'")" id="'.$reservation['id'].'" name="reservation" value="'.$reservation['nomClient'] .' '. $reservation['prenomClient'] .', '.$reservation['roomNumber'].', '.$reservation['entryDate'] .', '. $reservation['realeaseDate'] .'">'; 
+            $echo.= '<input type="button" class="list-group-item list-group-item-action" onclick="tableauClick('.$reservation['id'].')" id="'.$reservation['id'].'" name="reservation" value="'.$reservation['nomClient'] .' '. $reservation['prenomClient'] .', '.$reservation['roomNumber'].', '.$reservation['entryDate'] .', '. $reservation['realeaseDate'] .'">'; 
             
         }
       }
