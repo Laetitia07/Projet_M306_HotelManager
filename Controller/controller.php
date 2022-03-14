@@ -1,5 +1,5 @@
 <?php
-require_once "../Model/model.php";
+require_once "../Model/model.php";//testPull
 function controlInputRoom($NumChambre, $TypeChambre, $TelChambre){
     
     $error = "";
