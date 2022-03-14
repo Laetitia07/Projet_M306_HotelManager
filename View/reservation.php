@@ -5,7 +5,7 @@
 *Description : Relie le client à la chambre à travers une réservation 
 */
 
-require('../Model/functionResa.php');
+require('../Model/modelReservation.php');
 
 if(filter_has_var(INPUT_POST,"add")){
     controlInputInsert($_POST['EntryDate'],$_POST['ReleaseDate'],$_POST['client'],$_POST['chambre']);
