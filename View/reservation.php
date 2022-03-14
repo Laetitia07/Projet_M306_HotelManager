@@ -14,7 +14,37 @@ if(filter_has_var(INPUT_POST,"delete")){
     deleteResa($_POST['idResa']);
 }
 if(filter_has_var(INPUT_POST,"reservation")){
-    echo $_POST['reservation'];
+    echo "coucou";
+    $con =  CoToBase();
+    static $ps = null;
+    $sql = 'SELECT client.nomClient, client.prenomClient, reservation.roomNumber, reservation.entryDate, reservation.realeaseDate FROM `reservation` JOIN client ON reservation.id = client.idClient WHERE reservation.Id = :ID;';
+    if ($ps == null) {
+      $ps = $con->prepare($sql);
+    }
+    try {
+      $ps->execute();
+      if($ps->rowCount() == 0){
+        echo "pas de reservation";
+      }else{
+        $ps->execute(
+          array(
+              ':ID' => $_POST['idResa'],
+          )
+      );
+        $reservation = $ps->fetchAll();
+        foreach ($reservation as $reservation) {
+            
+            $nomPrenom = $reservation['prenomClient'] + " " + $reservation['nomClient'] ;
+            $entryDate = $reservation['entryDate'];
+            $realeaseDate = $reservation['realeaseDate'];
+            $room = $reservation['roomNumber'];
+        }
+        
+    }
+      
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -49,25 +79,44 @@ if(filter_has_var(INPUT_POST,"reservation")){
         </nav>
     </header>
     <main>
-        <form action="#" method="POST">
+        <?php
+    
+        ?>
+
+       
+        <form action="#" method="POST" id="form">
             <section id="section1">
                 <div class="mb-3 row">
                     <label for="EntryDate" class="col-sm-2 col-form-label">Entry Date</label>
                     <div class="col-sm-10">
-                    <input name="EntryDate" type="date" class="form-control" id="EntryDate">
+                    <input name="EntryDate" type="date" class="form-control" id="EntryDate" value="<?php 
+                    if(filter_has_var(INPUT_POST,"reservation")){
+                        echo $realeaseDate;
+                    }
+                    ?>">
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label for="ReleaseDate" class="col-sm-2 col-form-label">Release Date</label>
                     <div class="col-sm-10">
-                    <input name="ReleaseDate" type="date" class="form-control" id="ReleaseDate">
+                    <input name="ReleaseDate" type="date" class="form-control" id="ReleaseDate" value="<?php 
+                    if(filter_has_var(INPUT_POST,"reservation")){
+                        echo $entryDate;
+                    }
+                    ?>">
                     </div>
                 </div>
                 <div class="mb-3 row">
                     <label for="client" class="col-sm-2 col-form-label">Client</label>
                     <div class="col-sm-10">
                         <select class="form-control" name="client" id="client">
-                            <?php echo readClients();?>
+                            <?php 
+                            
+                            if(filter_has_var(INPUT_POST,"reservation")){
+                                echo $nomPrenom;
+                            }else{
+                                echo readClients();
+                            }?>
                         </select>
                     </div>
                 </div>
@@ -75,12 +124,21 @@ if(filter_has_var(INPUT_POST,"reservation")){
                     <label for="RoomNumber" class="col-sm-2 col-form-label">Room Number</label>
                     <div class="col-sm-10">
                     <select class="form-control" name="chambre" id="chambre">
-                            <?php echo readChambres();?>
+                            <?php 
+                            if(filter_has_var(INPUT_POST,"reservation")){
+                                echo $room;
+                            }else{
+                                echo readChambres();
+                            }
+                            ?>
                     </select>
                     </div>
                 </div>
         
             </section>
+            <?php
+      
+        ?>
             <section id="section3">
             <input type="submit" id="add" name="add" class="btn btn-outline-light" value="Add">
             <input type="submit" id="delete" name="delete" class="btn btn-outline-light" value="Delete">
@@ -105,7 +163,7 @@ if(filter_has_var(INPUT_POST,"reservation")){
                     function tableauClick(id){
                     document.getElementById(id).setAttribute("aria-current","true");
                     document.getElementById('idResa').setAttribute("value",id);
-                    
+                    document.getElementById('form').submit();
                     }
                 </script>
                 </div>

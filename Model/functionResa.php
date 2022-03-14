@@ -33,6 +33,43 @@ function readReservation(){
 }
 
 /**
+ * trouve une réservation
+ */
+function findReservation($id){
+  $con =  CoToBase();
+  static $ps = null;
+  $sql = 'SELECT client.nomClient, client.prenomClient, reservation.roomNumber, reservation.entryDate, reservation.realeaseDate FROM `reservation` JOIN client ON reservation.id = client.idClient WHERE reservation.Id = :ID;';
+  if ($ps == null) {
+    $ps = $con->prepare($sql);
+  }
+  try {
+    $ps->execute();
+    if($ps->rowCount() == 0){
+      echo "pas de reservation";
+    }else{
+      $ps->execute(
+        array(
+            ':ID' => $id,
+        )
+    );
+      $reservations = $ps->fetchAll();
+      $echo='';
+      foreach ($reservations as $reservation) {
+          $echo.= '<input type="button" class="list-group-item list-group-item-action" onclick="tableauClick('.$reservation['id'].')" id="'.$reservation['id'].'" name="reservation" value="'.$reservation['nomClient'] .' '. $reservation['prenomClient'] .', '.$reservation['roomNumber'].', '.$reservation['entryDate'] .', '. $reservation['realeaseDate'] .'">'; 
+          
+      }
+    }
+    
+    return $echo;
+    
+  } catch (Exception $e) {
+    echo $e->getMessage();
+  }
+
+}
+
+
+/**
  * Liste des clients
  */
 function readClients(){
