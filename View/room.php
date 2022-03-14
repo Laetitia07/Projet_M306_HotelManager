@@ -10,14 +10,14 @@ require_once "../Controller/controller.php";
 require_once "../Model/model.php";
 $mess = "";
 if(filter_has_var(INPUT_POST, 'Add')){
-    $mess = controlInputRoom(/*$_POST['RoomName'],*/$_POST['TypeRoom'],$_POST['RoomPhone']);
+    $mess = controlInputRoom($_POST['RoomName'],$_POST['TypeRoom'],$_POST['RoomPhone']);
  }
  if(filter_has_var(INPUT_POST, 'Delete')){
     header('location: ./room.php');
     deleteRoom($_GET['id']);
 }
 if(filter_has_var(INPUT_POST, 'Update')){
-    updateRoom($_POST['TypeRoom'],$_POST['RoomPhone'], $_GET['id']);
+    updateRoom($_POST['RoomName'],$_POST['TypeRoom'],$_POST['RoomPhone'], $_GET['id'], $_POST['radioAvailable']);
 }
 $rooms = selectRoom();
 ?>
@@ -112,24 +112,28 @@ if(isset($_GET['id'])){
             <section id="section2">
                 <div id="checkbox">
                     <div class="form-check" >
-                        <input class="form-check-input" type="radio" name="radioAvailable" id="radioAvailableyes">
+                        <input class="form-check-input" type="radio" name="radioAvailable" value = "Disponible">
                         <label class="form-check-label" for="radioAvailableyes">
                         available
                         </label>
                     </div>
                     <div class="form-check" id="chb">
-                        <input class="form-check-input" type="radio" name="radioAvailable" id="radioAvailablenot" checked>
-                        <label class="form-check-label" for="radioAvailablenot">
+                        <input class="form-check-input" type="radio" name="radioAvailable" value = "Indisponible" checked>
+                        <label class="form-check-label" for="radioAvailablenot" >
                         not available
                         </label>
                     </div>
                 </div>
                 <article>
                     <div class="list-group">
-                    <?php foreach($rooms as $room): ?>
-                        <a href="room.php?id=<?=$room['numeroChambre']?>" class="list-group-item list-group-item-action"><?=$room['numeroChambre']." ".$room['type']." ".$room['telephone']?></a>
-                        <br>
-                    <?php endforeach;?>  
+                    <?php foreach($rooms as $room): 
+                    
+                        if($room['disponibilite'] == "Disponible"){
+                        ?>                     
+                        <a href="room.php?id=<?=$room['numeroChambre']?>" class="list-group-item list-group-item-action"><?=$room['numeroChambre']." ".$room['type']." ".$room['telephone']." ".$room['disponibilite']?></a>                  
+                    <?php }else{?>
+                        <a href="room.php?id=<?=$room['numeroChambre']?>" id="indispo" class="list-group-item list-group-item-action"><?=$room['numeroChambre']." ".$room['type']." ".$room['telephone']." ".$room['disponibilite']?></a>                       
+                    <?php } endforeach;?>  
                     </div>
                 </article>
             </section>

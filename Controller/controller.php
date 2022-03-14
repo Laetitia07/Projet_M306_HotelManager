@@ -1,16 +1,16 @@
 <?php
 require_once "../Model/model.php";
-function controlInputRoom(/*$NumChambre,*/ $TypeChambre, $TelChambre){
+function controlInputRoom($NumChambre, $TypeChambre, $TelChambre){
     
     $error = "";
-    if (/*isset($NumChambre) && !empty($NumChambre) &&*/ isset($TypeChambre) && !empty($TypeChambre) && isset($TelChambre) && !empty($TelChambre)) {
-        //$num = filter_var($NumChambre, FILTER_SANITIZE_STRING);
+    if (isset($NumChambre) && !empty($NumChambre) && isset($TypeChambre) && !empty($TypeChambre) && isset($TelChambre) && !empty($TelChambre)) {
+        $num = filter_var($NumChambre, FILTER_SANITIZE_STRING);
         $type = filter_var($TypeChambre, FILTER_SANITIZE_STRING);
         $telephone = filter_var($TelChambre, FILTER_SANITIZE_STRING);
        
-        if (checkRoom($telephone)) {     
+        if (checkRoom($num)) {     
 
-            addRoom($type, $telephone);          
+            addRoom($num, $type, $telephone);          
             //$_SESSION['tel'] = $Telephone;
             //$_SESSION['nom'] = $nom;    
         } else {
