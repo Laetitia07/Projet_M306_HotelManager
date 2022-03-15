@@ -76,6 +76,7 @@ if(filter_has_var(INPUT_POST,"reservation")){
             <a href="../home.php" class="link-light">Home</a>
             <a href="./client.php" class="link-light">Client Manager</a>
             <a href="./reservation.php" class="link-light">Reservation</a>
+            <a href="./room.php" class="link-light">Room</a>
         </nav>
     </header>
     <main>

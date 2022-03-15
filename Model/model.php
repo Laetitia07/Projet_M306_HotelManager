@@ -102,4 +102,20 @@ function updateRoom($num,$type, $telephone, $idRoom, $dispo){
     }
 }
 
+function afficherChambreDispo($rdbDisponibilite){
+    try {
+        $bd = CoToBase();
+        $requete = $bd->prepare("SELECT * FROM chambres WHERE disponibilite = :dispo");
+        $requete->execute(
+            array(
+                ':dispo' => $rdbDisponibilite,
+            )
+        );   
+        return $requete->fetchAll();
+          
+    } catch (Exception $e) {
+        echo 'Exception reçue : ',  $e->getMessage(), "\n";
+    }
+}
+
 ?>
