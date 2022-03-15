@@ -17,7 +17,7 @@ if(filter_has_var(INPUT_POST,"reservation")){
     echo "coucou";
     $con =  CoToBase();
     static $ps = null;
-    $sql = 'SELECT client.nomClient, client.prenomClient, reservation.roomNumber, reservation.entryDate, reservation.realeaseDate FROM `reservation` JOIN client ON reservation.id = client.idClient WHERE reservation.Id = :ID;';
+    $sql = 'SELECT client.nomClient, client.prenomClient, reservations.roomNumber, reservations.entryDate, reservations.realeaseDate FROM `reservations` JOIN client ON reservations.idReservation = client.idClient WHERE reservations.idReservation = :ID;';
     if ($ps == null) {
       $ps = $con->prepare($sql);
     }
