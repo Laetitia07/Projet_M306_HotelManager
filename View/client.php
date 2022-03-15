@@ -45,9 +45,9 @@ if (isset($_GET['id'])) {
             <a href="#" class="link-light" id="deconnexion">se déconnecter</a>
         </div>
         <nav>
-            <a href="#" class="link-light">Home</a>
-            <a href="#" class="link-light">Client Manager</a>
-            <a href="#" class="link-light">Reservation</a>
+            <a href="../home.php" class="link-light">Home</a>
+            <a href="./client.php" class="link-light">Client Manager</a>
+            <a href="./reservation.php" class="link-light">Reservation</a>
         </nav>
     </header>
 
