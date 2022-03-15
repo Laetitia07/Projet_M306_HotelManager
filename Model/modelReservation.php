@@ -7,7 +7,7 @@ require("connexionBD.php");
 function readreservations(){
     $con =  CoToBase();
     static $ps = null;
-    $sql = 'SELECT reservations.idRservation, clients.nom, clients.prenom, reservations.numeroChambre, reservations.dateEntree, reservations.dateSortie FROM `reservations` JOIN client ON reservations.idReservation = client.client_idClient ;';
+    $sql = 'SELECT reservations.idReservation, clients.nom, clients.prenom, reservations.numeroChambre, reservations.dateEntree, reservations.dateSortie FROM `reservations` JOIN client ON reservations.idReservation = client.client_idClient ;';
     if ($ps == null) {
       $ps = $con->prepare($sql);
     }
@@ -19,7 +19,7 @@ function readreservations(){
         $reservationss = $ps->fetchAll();
         $echo='';
         foreach ($reservationss as $reservations) {
-            $echo.= '<input type="button" class="list-group-item list-group-item-action" onclick="tableauClick('.$reservations['id'].')" id="'.$reservations['idReservation'].'" name="reservations" value="'.$reservations['nomClient'] .' '. $reservations['prenomClient'] .', '.$reservations['roomNumber'].', '.$reservations['entryDate'] .', '. $reservations['realeaseDate'] .'">'; 
+            $echo.= '<input type="button" class="list-group-item list-group-item-action" onclick="tableauClick('.$reservations['id'].')" id="'.$reservations['idReservation'].'" name="reservations" value="'.$reservations['nom'] .' '. $reservations['prenom'] .', '.$reservations['numeroChambre'].', '.$reservations['dateEntree'] .', '. $reservations['dateSortie'] .'">'; 
             
         }
       }
@@ -38,7 +38,7 @@ function readreservations(){
 function findreservations($id){
   $con =  CoToBase();
   static $ps = null;
-  $sql = 'SELECT clients.nom, clients.prenom, reservations.roomNumber, reservations.dateEntree, reservations.dateSortie FROM `reservations` JOIN client ON reservations.id = client.idClient WHERE reservations.Id = :ID;';
+  $sql = 'SELECT clients.nom, clients.prenom, reservations.numeroChambre, reservations.dateEntree, reservations.dateSortie FROM `reservations` JOIN client ON reservations.id = client.idClient WHERE reservations.idReservation = :ID;';
   if ($ps == null) {
     $ps = $con->prepare($sql);
   }
@@ -55,7 +55,7 @@ function findreservations($id){
       $reservationss = $ps->fetchAll();
       $echo='';
       foreach ($reservationss as $reservations) {
-          $echo.= '<input type="button" class="list-group-item list-group-item-action" onclick="tableauClick('.$reservations['id'].')" id="'.$reservations['id'].'" name="reservations" value="'.$reservations['nomClient'] .' '. $reservations['prenomClient'] .', '.$reservations['roomNumber'].', '.$reservations['entryDate'] .', '. $reservations['realeaseDate'] .'">'; 
+          $echo.= '<input type="button" class="list-group-item list-group-item-action" onclick="tableauClick('.$reservations['id'].')" id="'.$reservations['id'].'" name="reservations" value="'.$reservations['nom'] .' '. $reservations['prenom'] .', '.$reservations['numeroChambre'].', '.$reservations['dateEntree'] .', '. $reservations['dateSortie'] .'">'; 
           
       }
     }
@@ -87,7 +87,7 @@ function readClients(){
         $clients = $ps->fetchAll();
         $echo='';
         foreach ($clients as $client) {
-            $echo.= '<option value="'.$client['idClient'].'">'.$client['nomClient'].' '.$client['prenomClient'].'</option>'; 
+            $echo.= '<option value="'.$client['idClient'].'">'.$client['nom'].' '.$client['prenom'].'</option>'; 
         
         }
       }
@@ -117,7 +117,7 @@ function readChambres(){
         $chambres = $ps->fetchAll();
         $echo='';
         foreach ($chambres as $chambre) {
-            $echo.= '<option value="'.$chambre['roomNumber'].'">'.$chambre['roomNumber'].'</option>'; 
+            $echo.= '<option value="'.$chambre['numeroChambre'].'">'.$chambre['numeroChambre'].'</option>'; 
         
         }
       }
@@ -131,17 +131,17 @@ function readChambres(){
 /**
  * Ajoute une réservation
  */
-function InsertResa($entryDate, $realeaseDate, $idClient, $roomNumber){
+function InsertResa($dateEntree, $dateSortie, $idClient, $numeroChambre){
   try {
     $bd = CoToBase();
-    $requete = $bd->prepare("INSERT INTO `reservations`(`idreservations`, `entryDate`, `realeaseDate`, `id`, `roomNumber`) VALUES( NULL, :Entry, :Realease, :Idclient, :Roomnumber)");
+    $requete = $bd->prepare("INSERT INTO `reservations`(`idreservations`, `dateEntree`, `dateSortie`, `id`, `numeroChambre`) VALUES( NULL, :Entry, :Realease, :Idclient, :numeroChambre)");
 
     $requete->execute(
         array(
-            ':Entry' => $entryDate,
-            ':Realease' => $realeaseDate,
+            ':Entry' => $dateEntree,
+            ':Realease' => $dateSortie,
             ':Idclient' => $idClient,
-            ':Roomnumber' => $roomNumber,
+            ':numeroChambre' => $numeroChambre,
         )
     );
     
@@ -155,18 +155,18 @@ function InsertResa($entryDate, $realeaseDate, $idClient, $roomNumber){
 /**
  * Controlle les input post avant d'insérer
  */
-function controlInputInsert($entryDate, $realeaseDate, $idClient, $roomNumber){
+function controlInputInsert($dateEntree, $dateSortie, $idClient, $numeroChambre){
     
     $error = "";
-    if (isset($entryDate) && !empty($entryDate) && isset($idClient) && !empty($idClient) && isset($roomNumber) && !empty($roomNumber)) {
-        $nom = filter_var($entryDate,);
-        $prenom = filter_var($realeaseDate, );
+    if (isset($dateEntree) && !empty($dateEntree) && isset($idClient) && !empty($idClient) && isset($numeroChambre) && !empty($numeroChambre)) {
+        $nom = filter_var($dateEntree,);
+        $prenom = filter_var($dateSortie, );
         $Telephone = filter_var($idClient, FILTER_SANITIZE_NUMBER_INT);
-        $Adresse = filter_var($roomNumber, FILTER_SANITIZE_STRING);
+        $Adresse = filter_var($numeroChambre, FILTER_SANITIZE_STRING);
        
-        if (checkDoubleResa($entryDate, $realeaseDate, $idClient, $roomNumber)) {     
+        if (checkDoubleResa($dateEntree, $dateSortie, $idClient, $numeroChambre)) {     
 
-            InsertResa($entryDate,$realeaseDate,$idClient,$roomNumber);
+            InsertResa($dateEntree,$dateSortie,$idClient,$numeroChambre);
         } else {
             $error = "Une réservation indentique existe déja au nom de ce client";
         }
@@ -179,15 +179,15 @@ function controlInputInsert($entryDate, $realeaseDate, $idClient, $roomNumber){
 /**
  * Vérifie qu'une réservation identique n'existe pas déja
  */
-function checkDoubleResa($entryDate, $realeaseDate, $idClient, $roomNumber){
+function checkDoubleResa($dateEntree, $dateSortie, $idClient, $numeroChambre){
 
   $estOk = true;
   try {
       $bd = CoToBase();
-      $requete = $bd->query('SELECT reservations.id, reservations.roomNumber, reservations.entryDate, reservations.realeaseDate FROM `reservations`;');
+      $requete = $bd->query('SELECT reservations.id, reservations.numeroChambre, reservations.dateEntree, reservations.dateSortie FROM `reservations`;');
 
       while ($donnee = $requete->fetch()) {
-          if ($entryDate == $donnee['entryDate'] || $realeaseDate == $donnee['realeaseDate'] || $idClient == $donnee['id'] || $roomNumber == $donnee['roomNumber']) {
+          if ($dateEntree == $donnee['dateEntree'] || $dateSortie == $donnee['dateSortie'] || $idClient == $donnee['id'] || $numeroChambre == $donnee['numeroChambre']) {
             $estOk = false;
           }
       }
