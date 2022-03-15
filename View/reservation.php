@@ -17,7 +17,7 @@ if(filter_has_var(INPUT_POST,"reservation")){
     echo "coucou";
     $con =  CoToBase();
     static $ps = null;
-    $sql = 'SELECT client.nomClient, client.prenomClient, reservations.roomNumber, reservations.entryDate, reservations.realeaseDate FROM `reservations` JOIN client ON reservations.idReservation = client.idClient WHERE reservations.idReservation = :ID;';
+    $sql = 'SELECT clients.nom, clients.prenom, reservations.numeroChambre, reservations.dateEntree, reservations.dateSortie FROM `reservations` JOIN clients ON reservations.idReservation = clients.idClients WHERE reservations.idReservation = :ID;';
     if ($ps == null) {
       $ps = $con->prepare($sql);
     }
@@ -34,10 +34,10 @@ if(filter_has_var(INPUT_POST,"reservation")){
         $reservation = $ps->fetchAll();
         foreach ($reservation as $reservation) {
             
-            $nomPrenom = $reservation['prenomClient'] + " " + $reservation['nomClient'] ;
-            $entryDate = $reservation['entryDate'];
-            $realeaseDate = $reservation['realeaseDate'];
-            $room = $reservation['roomNumber'];
+            $nomPrenom = $reservation['prenom'] + " " + $reservation['nom'] ;
+            $entryDate = $reservation['dateEntree'];
+            $realeaseDate = $reservation['dateSortie'];
+            $room = $reservation['numeroChambre'];
         }
         
     }
@@ -156,7 +156,7 @@ if(filter_has_var(INPUT_POST,"reservation")){
                 <article>
                 <div class="list-group">
                 <!-- <a href="#" class="list-group-item list-group-item-action active" aria-current="true">Room name, Type Room, Room phone</a>-->
-                <?php echo readReservation() ;
+                <?php echo readreservations() ;
                 ?>
                 <input type="hidden" id="idResa" name="idResa" value="">
                 <script type="text/javascript">
