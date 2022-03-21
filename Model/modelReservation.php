@@ -134,7 +134,7 @@ function readChambres(){
 function InsertResa($dateEntree, $dateSortie, $idClient, $numeroChambre){
   try {
     $bd = CoToBase();
-    $requete = $bd->prepare("INSERT INTO `reservations`(`idreservations`, `dateEntree`, `dateSortie`, `clients_idClients`, `numeroChambre`) VALUES( NULL, :Entry, :Realease, :Idclient, :numeroChambre)");
+    $requete = $bd->prepare("INSERT INTO `reservations`(`idReservation`, `dateEntree`, `dateSortie`, `clients_idClients`, `numeroChambre`) VALUES( NULL, :Entry, :Realease, :Idclient, :numeroChambre)");
 
     $requete->execute(
         array(
